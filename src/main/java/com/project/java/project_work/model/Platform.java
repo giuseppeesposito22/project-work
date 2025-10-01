@@ -27,4 +27,39 @@ public class Platform {
     @JsonBackReference
     private List<Videogame> videogames;
 
+    public Platform(){};
+
+    public Platform(Integer id, @NotBlank(message = "Il nome della piattaforma non puo' essere vuoto") String name,
+            List<Videogame> videogames) {
+        this.id = id;
+        this.name = name;
+        this.videogames = videogames;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Videogame> getVideogames() {
+        return videogames;
+    }
+
+    public void setVideogames(List<Videogame> videogames) {
+        this.videogames = videogames;
+    }
+
+    
+
 }

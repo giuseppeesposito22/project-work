@@ -37,6 +37,60 @@ public class Videogame {
     inverseJoinColumns = @JoinColumn(name ="platform_id") )
     private List<Platform> platforms;
 
+    public Videogame(){};
+
+    public Videogame(Integer id, @NotBlank(message = "Il nome del videogioco non puo' essere vuoto") String name,
+            @NotNull(message = "La data di rilascio non puo' essere null") LocalDate releaseDate,
+            @NotNull(message = "Il prezzo del videogame non puo' essere null") Double price, List<Platform> platforms) {
+        this.id = id;
+        this.name = name;
+        this.releaseDate = releaseDate;
+        this.price = price;
+        this.platforms = platforms;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public List<Platform> getPlatforms() {
+        return platforms;
+    }
+
+    public void setPlatforms(List<Platform> platforms) {
+        this.platforms = platforms;
+    }
+
+    
+    
 
 
 }
