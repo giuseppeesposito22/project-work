@@ -12,6 +12,8 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -35,6 +37,7 @@ public class Videogame {
     private LocalDate releaseDate;
 
     @NotNull(message = "Il prezzo del videogame non puo' essere null")
+    @Min(value = 0, message = "Il prezzo non puo' essere negativo")
     private Double price;
 
     @ManyToMany
