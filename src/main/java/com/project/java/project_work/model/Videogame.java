@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -23,6 +24,9 @@ public class Videogame {
     private Integer id;
 
     private String img;
+
+    @Lob
+    private String description;
 
     @NotBlank(message = "Il nome del videogioco non puo' essere vuoto")
     private String name;
@@ -42,21 +46,6 @@ public class Videogame {
     public Videogame(){};
 
     
-
-    public Videogame(Integer id, String img,
-            @NotBlank(message = "Il nome del videogioco non puo' essere vuoto") String name,
-            @NotNull(message = "La data di rilascio non puo' essere null") LocalDate releaseDate,
-            @NotNull(message = "Il prezzo del videogame non puo' essere null") Double price, List<Platform> platforms) {
-        this.id = id;
-        this.img = img;
-        this.name = name;
-        this.releaseDate = releaseDate;
-        this.price = price;
-        this.platforms = platforms;
-    }
-
-    
-
     public Integer getId() {
         return id;
     }
@@ -107,6 +96,16 @@ public class Videogame {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     
