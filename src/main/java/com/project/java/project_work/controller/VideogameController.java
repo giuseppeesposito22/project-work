@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.project.java.project_work.model.Videogame;
 import com.project.java.project_work.service.VideogameService;
 
 @Controller
@@ -33,5 +34,13 @@ public class VideogameController {
         model.addAttribute("videogame", videogameService.getVideogameById(id));
         
         return "videogames/show";
+    }
+
+    @GetMapping("/create")
+    public String create(Model model){
+        
+        model.addAttribute("videogame", new Videogame());
+        
+        return "videogames/create-update";    
     }
 }
