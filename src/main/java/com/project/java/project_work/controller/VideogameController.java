@@ -67,4 +67,38 @@ public class VideogameController {
 
         return "redirect:/videogames";
     }
+
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Integer id, Model model){
+
+        model.addAttribute("videogame", videogameService.getVideogameById(id));
+        model.addAttribute("platforms", platformService.getAllPlatforms());
+        model.addAttribute("edit", true);
+
+
+
+        return "videogames/create-update";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String update(@PathVariable Integer id, 
+    @Valid @ModelAttribute("videogame") Videogame videogame, 
+    BindingResult bindingResult){
+
+        if(bindingResult.hasErrors()){
+            return "/videogames/create-update";
+        }
+        
+        videogameService.updateVideogame(videogame);
+
+        return "redirect:/videogames";
+    }
+
+    @PostMapping("delete/{id}")
+    public String delete(@PathVariable Integer id){
+
+        videogameService.deleteVideogame(id);
+        return "redirect:/videogames";
+    }
 }
