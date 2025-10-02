@@ -12,7 +12,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +38,9 @@ public class Videogame {
     @NotNull(message = "Il prezzo del videogame non puo' essere null")
     @Min(value = 0, message = "Il prezzo non puo' essere negativo")
     private Double price;
+
+    @NotNull(message = "Il campo developer non puo' essere vuoto")
+    private String developer;
 
     @ManyToMany
     @JoinTable(name = "platform_videogame",
@@ -109,6 +111,16 @@ public class Videogame {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public String getDeveloper() {
+        return developer;
+    }
+
+
+    public void setDeveloper(String developer) {
+        this.developer = developer;
     }
 
     
