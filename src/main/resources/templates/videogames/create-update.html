@@ -12,10 +12,11 @@
       <div class="row">
         <form
           method="post"
-          th:action="@{/videogames/create}"
+          th:action="${edit} ? @{/videogames/edit/{id} (id = ${videogame.id})} : @{/videogames/create}"
           id="videogame-form"
           th:object="${videogame}"
         >
+          <!-- Nome -->
           <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
             <input
@@ -26,11 +27,13 @@
               th:errorClass="is-invalid"
             />
             <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback">
-            <ul>
-              <li th:each="err : ${#fields.errors('name')}">[[${err}]]</li>
-            </ul>
+              <ul>
+                <li th:each="err : ${#fields.errors('name')}">[[${err}]]</li>
+              </ul>
             </div>
           </div>
+
+          <!-- Descrizione  -->
           <div class="mb-3">
             <label for="description" class="form-label">Descrizione</label>
             <textarea
@@ -39,13 +42,20 @@
               th:field="*{description}"
               th:errorClass="is-invalid"
             ></textarea>
-               <div th:if="${#fields.hasErrors('description')}" class="invalid-feedback">
-            <ul>
-              <li th:each="err : ${#fields.errors('description')}">[[${err}]]</li>
-            </ul>
+            <div
+              th:if="${#fields.hasErrors('description')}"
+              class="invalid-feedback"
+            >
+              <ul>
+                <li th:each="err : ${#fields.errors('description')}">
+                  [[${err}]]
+                </li>
+              </ul>
+            </div>
           </div>
-          </div>
-            <div class="mb-3">
+
+          <!-- Prezzo  -->
+          <div class="mb-3">
             <label for="price" class="form-label">Prezzo</label>
             <input
               type="number"
@@ -55,37 +65,71 @@
               step="0.01"
               th:errorClass="is-invalid"
             />
-               <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">
-            <ul>
-              <li th:each="err : ${#fields.errors('price')}">[[${err}]]</li>
-            </ul>
+            <div th:if="${#fields.hasErrors('price')}" class="invalid-feedback">
+              <ul>
+                <li th:each="err : ${#fields.errors('price')}">[[${err}]]</li>
+              </ul>
+            </div>
           </div>
-          </div>
+
+          <!-- Data di rilascio  -->
           <div class="mb-3">
-            <label for="release-date" class="form-label">Data di rilascio</label>
+            <label for="release-date" class="form-label"
+              >Data di rilascio</label
+            >
             <input
-                type="date"
-                class="form-control"
-                id="release-date"
-                th:field="*{releaseDate}"
-                th:errorClass="is-invalid"
-            ></input>
-            <div th:if="${#fields.hasErrors('releaseDate')}" class="invalid-feedback">
-            <ul>
-              <li th:each="err : ${#fields.errors('releaseDate')}">[[${err}]]</li>
-            </ul>
+              type="date"
+              class="form-control"
+              id="release-date"
+              th:field="*{releaseDate}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              th:if="${#fields.hasErrors('releaseDate')}"
+              class="invalid-feedback"
+            >
+              <ul>
+                <li th:each="err : ${#fields.errors('releaseDate')}">
+                  [[${err}]]
+                </li>
+              </ul>
+            </div>
           </div>
+
+          <!-- Sviluppatore  -->
+          <div class="mb-3">
+            <label for="developer" class="form-label">Casa di sviluppo</label>
+            <input
+              type="text"
+              class="form-control"
+              id="developer"
+              th:field="*{developer}"
+              th:errorClass="is-invalid"
+            />
+            <div
+              th:if="${#fields.hasErrors('developer')}"
+              class="invalid-feedback"
+            >
+              <ul>
+                <li th:each="err : ${#fields.errors('developer')}">
+                  [[${err}]]
+                </li>
+              </ul>
+            </div>
           </div>
-             <div class="mb-3">
+
+          <!-- Immagine  -->
+          <div class="mb-3">
             <label for="img" class="form-label">Immagine</label>
             <input
               type="text"
               class="form-control"
               id="img"
               th:field="*{img}"
-            
-            ></input>
+            />
           </div>
+
+          <!-- Checkbox  -->
           <div class="mb-3 form-check" th:each="platform : ${platforms}">
             <input
               type="checkbox"
@@ -98,6 +142,7 @@
               >[[${platform.name}]]</label
             >
           </div>
+
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
