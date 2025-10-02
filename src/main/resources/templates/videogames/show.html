@@ -10,15 +10,11 @@
     <div th:insert="~{fragments/fragments :: navbar}"></div>
     <div class="container my-5">
       <div class="row d-flex justify-content-center">
-        <div class="card" style="width: 18rem">
-          <img
-            th:src="@{'/img/' + ${videogame.img}}"
-            class="card-img-top"
-            alt="..."
-          />
+        <div class="card p-0" style="width: 18rem" th:object="${videogame}">
+          <img th:src="@{'/img/' + *{img}}" class="card-img-top" alt="..." />
           <div class="card-body">
-            <h5 class="card-title">[[${videogame.name}]]</h5>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title">[[*{name}]]</h5>
+            <p class="card-text">[[*{description}]]</p>
           </div>
         </div>
       </div>
