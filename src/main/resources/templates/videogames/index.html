@@ -22,8 +22,7 @@
             <tr>
               <th scope="col">img</th>
               <th scope="col">name</th>
-              <th scope="col">price</th>
-              <th scope="col">release date</th>
+              <th></th>
               <th></th>
               <th></th>
             </tr>
@@ -34,8 +33,6 @@
                 <img th:src="@{'/img/' + ${vg.img}}" alt="" width="100" />
               </td>
               <td class="align-middle">[[${vg.name}]]</td>
-              <td class="align-middle">[[${vg.price}]]</td>
-              <td class="align-middle">[[${vg.releaseDate}]]</td>
               <td class="align-middle">
                 <a
                   class="btn btn-primary"
@@ -43,6 +40,74 @@
                   >Dettaglio</a
                 >
               </td>
+              <td class="align-middle">
+                <a
+                  class="btn btn-warning"
+                  th:href="@{/videogames/edit/{id} (id = ${vg.id})}"
+                  >Modifica</a
+                >
+              </td>
+
+              <!-- Bottone modale  -->
+              <td class="align-middle">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                  th:attr="data-bs-target='#deleteModal-' + ${vg.id}"
+                >
+                  Elimina
+                </button>
+              </td>
+              <!-- modale a comparsa  -->
+
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+                th:id="'deleteModal-' + ${vg.id}"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Stai eliminando [[${vg.name}]]
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      Stai per eliminare il videogame [[${vg.name}]], sicuro di
+                      voler procedere?
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <form
+                        method="post"
+                        th:action="@{/videogames/delete/{id} (id = ${vg.id})}"
+                      >
+                        <button type="submit" class="btn btn-danger">
+                          Elimina
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- ------  -->
             </tr>
           </tbody>
         </table>
