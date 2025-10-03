@@ -1,5 +1,11 @@
 package com.project.java.project_work.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.project.java.project_work.model.Videogame;
 import com.project.java.project_work.service.PlatformService;
@@ -54,13 +62,25 @@ public class VideogameController {
 
     @PostMapping("/create")
     public String store(@Valid @ModelAttribute("videogame") Videogame videogame, 
-     BindingResult bindingResult, Model model 
-    ){
+     BindingResult bindingResult, Model model, @RequestParam("file") MultipartFile file
+    ) throws IOException {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("platforms", platformService.getAllPlatforms());
             return "/videogames/create-update";
         }
+
+
+        
+        if (!file.isEmpty()) {
+            
+            videogame.setImg(file.getOriginalFilename());
+            Path uploadPath = Paths.get("src/main/resources/static/img/");
+            Path filePath = uploadPath.resolve(file.getOriginalFilename());
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        }
+
+        
 
         videogameService.createVideogame(videogame);
 
@@ -84,11 +104,30 @@ public class VideogameController {
     @PostMapping("/edit/{id}")
     public String update(@PathVariable Integer id, 
     @Valid @ModelAttribute("videogame") Videogame videogame, 
-    BindingResult bindingResult){
+    BindingResult bindingResult, @RequestParam(name = "file", required = false) MultipartFile file, Model model) throws IOException{
+
+        Videogame oldVideogame = videogameService.getVideogameById(id);
 
         if(bindingResult.hasErrors()){
+            model.addAttribute("platforms", platformService.getAllPlatforms());
+            model.addAttribute("edit", true);
+
             return "/videogames/create-update";
         }
+
+
+
+        if (!file.isEmpty()) {
+            
+            videogame.setImg(file.getOriginalFilename());
+            Path uploadPath = Paths.get("src/main/resources/static/img/");
+            Path filePath = uploadPath.resolve(file.getOriginalFilename());
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+        } else{
+
+            videogame.setImg(oldVideogame.getImg());
+        }
+
         
         videogameService.updateVideogame(videogame);
 
@@ -96,9 +135,14 @@ public class VideogameController {
     }
 
     @PostMapping("delete/{id}")
-    public String delete(@PathVariable Integer id){
+    public String delete(@PathVariable Integer id) throws IOException{
+
+        Videogame videogame = videogameService.getVideogameById(id);
 
         videogameService.deleteVideogame(id);
+        Path imgPath = Paths.get("src/main/resources/static/img/" + videogame.getImg());
+        Files.deleteIfExists(imgPath);
+
         return "redirect:/videogames";
     }
 }
