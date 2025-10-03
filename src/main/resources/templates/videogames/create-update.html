@@ -10,11 +10,13 @@
     <div th:insert="~{fragments/fragments :: navbar}"></div>
     <div class="container">
       <div class="row">
+      
         <form
           method="post"
           th:action="${edit} ? @{/videogames/edit/{id} (id = ${videogame.id})} : @{/videogames/create}"
           id="videogame-form"
           th:object="${videogame}"
+          enctype="multipart/form-data"
         >
           <!-- Nome -->
           <div class="mb-3">
@@ -122,12 +124,13 @@
           <div class="mb-3">
             <label for="img" class="form-label">Immagine</label>
             <input
-              type="text"
+            
+              type="file"
+              name="file"
               class="form-control"
               id="img"
-              th:field="*{img}"
             />
-          </div>
+           
 
           <!-- Checkbox  -->
           <div class="mb-3 form-check" th:each="platform : ${platforms}">
