@@ -75,7 +75,8 @@ public class VideogameController {
         if (!file.isEmpty()) {
             
             videogame.setImg(file.getOriginalFilename());
-            Path uploadPath = Paths.get("src/main/resources/static/img/");
+            Path uploadPath = Paths.get("uploads/img/");
+            Files.createDirectories(uploadPath);
             Path filePath = uploadPath.resolve(file.getOriginalFilename());
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         }
@@ -120,7 +121,7 @@ public class VideogameController {
         if (!file.isEmpty()) {
             
             videogame.setImg(file.getOriginalFilename());
-            Path uploadPath = Paths.get("src/main/resources/static/img/");
+            Path uploadPath = Paths.get("uploads/img/");
             Path filePath = uploadPath.resolve(file.getOriginalFilename());
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
         } else{
