@@ -141,7 +141,7 @@ public class VideogameController {
         Videogame videogame = videogameService.getVideogameById(id);
 
         videogameService.deleteVideogame(id);
-        Path imgPath = Paths.get("src/main/resources/static/img/" + videogame.getImg());
+        Path imgPath = Paths.get("uploads/img/" + videogame.getImg());
         Files.deleteIfExists(imgPath);
 
         return "redirect:/videogames";
