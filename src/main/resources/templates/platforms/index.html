@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <th:block th:replace="~{fragments/fragments :: style}"></th:block>
+    <title>Piattaforme</title>
+  </head>
+  <body>
+    <div th:insert="~{fragments/fragments :: navbar}"></div>
+    <div class="container my-5">
+      <div class="d-flex justify-content-end my-3 gap-2">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#modal-create"
+        >
+          Aggiungi piattaforma
+        </button>
+      </div>
+
+      <!-- Modal Create -->
+      <div
+        class="modal fade"
+        id="modal-create"
+        tabindex="-1"
+        aria-labelledby="modalCreateLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form
+              th:action="@{/platforms/create}"
+              th:object="${platform}"
+              enctype="multipart/form-data"
+              method="post"
+            >
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalCreateLabel">
+                  Aggiungi piattaforma
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <!-- Nome -->
+                <div class="mb-3">
+                  <label for="create-name" class="form-label">Nome</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="create-name"
+                    th:field="*{name}"
+                    th:errorClass="is-invalid"
+                  />
+                  <div
+                    th:if="${#fields.hasErrors('name')}"
+                    class="invalid-feedback"
+                  >
+                    <ul>
+                      <li th:each="err : ${#fields.errors('name')}">
+                        [[${err}]]
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- Immagine -->
+                <div class="mb-3">
+                  <label for="create-img" class="form-label">Immagine</label>
+                  <input
+                    type="file"
+                    name="file"
+                    class="form-control"
+                    id="create-img"
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Chiudi
+                </button>
+                <button type="submit" class="btn btn-primary">Aggiungi</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="row row-cols-4">
+        <div
+          th:each="plat : ${platforms}"
+          class="d-flex justify-content-center mb-4"
+        >
+          <div class="card text-bg-dark" style="width: 18rem">
+            <img
+              th:src="@{/img/{f}(f=${plat.img})}"
+              class="card-img h-100"
+              th:alt="${plat.name}"
+            />
+            <div class="card-body">
+              <h5 class="card-title" th:text="${plat.name}"></h5>
+
+              <!-- button modifica  -->
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                th:attr="data-bs-target='#modal-edit-' + ${plat.id}"
+              >
+                Modifica
+              </button>
+
+              <!-- button eliminazione  -->
+
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                th:attr="data-bs-target='#deleteModal-' + ${plat.id}"
+              >
+                Elimina
+              </button>
+
+              <!-- Modal delete  -->
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+                th:id="'deleteModal-' + ${plat.id}"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Stai eliminando [[${plat.name}]]
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      Stai per eliminare la piattaforma [[${plat.name}]], sicuro
+                      di voler procedere?
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Close
+                      </button>
+                      <form
+                        method="post"
+                        th:action="@{/platforms/delete/{id} (id = ${plat.id})}"
+                      >
+                        <button type="submit" class="btn btn-danger">
+                          Elimina
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal Edit -->
+              <div
+                class="modal fade"
+                th:id="'modal-edit-' + ${plat.id}"
+                tabindex="-1"
+                th:attr="aria-labelledby='modalLabel-' + ${plat.id}"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form
+                      method="post"
+                      th:action="@{/platforms/edit/{id}(id=${plat.id})}"
+                      enctype="multipart/form-data"
+                    >
+                      <div class="modal-header">
+                        <h1
+                          class="modal-title fs-5"
+                          th:id="'modalLabel-' + ${plat.id}"
+                        >
+                          Modifica piattaforma
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Nome -->
+                        <div class="mb-3">
+                          <label
+                            th:for="'edit-name-' + ${plat.id}"
+                            class="form-label"
+                            >Nome</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            th:id="'edit-name-' + ${plat.id}"
+                            name="name"
+                            th:value="${plat.name}"
+                          />
+                        </div>
+                        <!-- Immagine -->
+                        <div class="mb-3">
+                          <label
+                            th:for="'edit-img-' + ${plat.id}"
+                            class="form-label"
+                            >Immagine</label
+                          >
+                          <input
+                            type="file"
+                            name="file"
+                            class="form-control"
+                            th:id="'edit-img-' + ${plat.id}"
+                          />
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Chiudi
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                          Modifica
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
