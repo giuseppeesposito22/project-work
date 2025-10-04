@@ -23,18 +23,14 @@ public class Platform {
     @NotBlank(message = "Il nome della piattaforma non puo' essere vuoto")
     private String name;
 
+    private String img;
+
     @ManyToMany(mappedBy = "platforms")
     @JsonBackReference
     private List<Videogame> videogames;
 
     public Platform(){};
 
-    public Platform(Integer id, @NotBlank(message = "Il nome della piattaforma non puo' essere vuoto") String name,
-            List<Videogame> videogames) {
-        this.id = id;
-        this.name = name;
-        this.videogames = videogames;
-    }
 
     public Integer getId() {
         return id;
@@ -58,6 +54,16 @@ public class Platform {
 
     public void setVideogames(List<Videogame> videogames) {
         this.videogames = videogames;
+    }
+
+
+    public String getImg() {
+        return img;
+    }
+
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     
