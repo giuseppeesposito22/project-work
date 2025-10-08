@@ -1,6 +1,8 @@
 package com.project.java.project_work.controller.rest;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.java.project_work.model.Videogame;
+import com.project.java.project_work.model.VideogameResponse;
 import com.project.java.project_work.service.VideogameService;
 
 @RestController
@@ -23,6 +26,8 @@ public class VideogameRestController {
 
     @Autowired
     private VideogameService videogameService;
+    
+
 
     @GetMapping
     public List<Videogame> index(){
@@ -30,47 +35,88 @@ public class VideogameRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Videogame> show(@PathVariable Integer id){
+    public ResponseEntity<?> show(@PathVariable Integer id){
 
+        try {
 
-        if(videogameService.existById(id)){
-            return new ResponseEntity<Videogame>(videogameService.getVideogameById(id), HttpStatus.OK);
+            Videogame videogame = videogameService.getVideogameById(id);
+
+            VideogameResponse response = new VideogameResponse(videogame, "Trovato Vg con id: " + id);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+     
+            
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            
+            response.put("err", e.getMessage());
+            response.put("message", "Elemento non trovato");
+
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<Videogame>(HttpStatus.NOT_FOUND);
+
+        
     }
 
     @PostMapping
-    public ResponseEntity<Videogame> store(@RequestBody Videogame videogame){
+    public ResponseEntity<?> store(@RequestBody Videogame videogame){
 
-       
-        return new ResponseEntity<Videogame>(videogameService.createVideogame(videogame), HttpStatus.OK);
-
-
+        try {
+            Videogame newVideogame = videogameService.createVideogame(videogame);
+            VideogameResponse response = new VideogameResponse(newVideogame, "Vg creato correttamente");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            Map<String, String> response = new HashMap<>();
+            response.put("err", e.getMessage());
+            response.put("message", "Errore nella creazione del Vg");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
        
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Videogame> update(@RequestBody Videogame videogame, @PathVariable Integer id){
-        if (videogameService.existById(id)) {
+    public ResponseEntity<?> update(@RequestBody Videogame videogame, @PathVariable Integer id){
+
+        try {
             videogame.setId(id);
             return new ResponseEntity<Videogame>(videogameService.updateVideogame(videogame), HttpStatus.OK);
+            
+        } catch (Exception e) {
+         
+            Map<String, String> response = new HashMap<>();
+            response.put("err", e.getMessage());
+            response.put("message", "Elemento non trovato");
+    
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      
     }
 
 
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Videogame> delete(@PathVariable Integer id){
+    public ResponseEntity<?> delete(@PathVariable Integer id){
+
         if (videogameService.existById(id)) {
+            
             videogameService.deleteVideogame(id);
-            return new ResponseEntity<Videogame>(HttpStatus.OK);
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Vg eliminato correttamente");
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+     
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Vg non trovato");
+           
+
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+
+
     }
 
 }
