@@ -9,12 +9,38 @@
   <body>
     <div th:insert="~{fragments/fragments :: navbar}"></div>
     <div class="container my-5">
-      <div class="row d-flex justify-content-center">
-        <div class="card p-0" style="width: 18rem" th:object="${videogame}">
-          <img th:src="@{'/img/' + *{img}}" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">[[*{name}]]</h5>
-            <p class="card-text">[[*{description}]]</p>
+      <div class="row">
+        <h2 th:text="${videogame.name}" class="my-2 fw-bold"></h2>
+        <div class="col-6">
+          <div>
+            <img th:src="@{'/img/' + ${videogame.img}}" alt="" class="w-100" />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="mb-3 platforms">
+            <span class="fw-bold">Piattaforme:</span>
+            <span
+              th:each="platform : ${videogame.platforms}"
+              class="badge text-bg-secondary mx-1"
+              >[[${platform.name}]]</span
+            >
+          </div>
+          <div class="description">
+            <span class="my-3 fw-normal fs-3">Descrizione</span>
+            <div class="my-3">
+              <span th:text="${videogame.description}" class="fw-normal"></span>
+            </div>
+          </div>
+          <div class="my-3 developer">
+            <span class="fw-bold">Developer:</span>
+            <span th:text="${videogame.developer}"></span>
+          </div>
+          <div class="release-date">
+            <span class="fw-bold">Uscita:</span>
+            <span th:text="${videogame.releaseDate.year}"></span>
+          </div>
+          <div class="price my-3">
+            <span class="fw-bold fs-2">€[[${videogame.price}]]</span>
           </div>
         </div>
       </div>
