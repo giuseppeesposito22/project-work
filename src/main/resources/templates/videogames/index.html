@@ -8,23 +8,22 @@
   </head>
   <body>
     <div th:insert="~{fragments/fragments :: navbar}"></div>
-    <h1>Index Videogames</h1>
 
-    <div class="container">
+    <div class="container my-3">
       <div class="row d-flex justify-content-end">
         <a
           th:href="@{'/videogames/create'}"
           class="btn btn-outline-primary w-25"
-          >Aggiungi videogame</a
+          >+ Aggiungi videogame</a
         >
-        <table class="table">
+        <table class="table my-3">
           <thead>
-            <tr>
-              <th scope="col">img</th>
-              <th scope="col">name</th>
+            <tr class="table-light">
+              <th scope="col">Copertina</th>
+              <th scope="col">Titolo</th>
               <th></th>
               <th></th>
-              <th></th>
+              <th>Azioni</th>
             </tr>
           </thead>
           <tbody>
@@ -33,26 +32,26 @@
                 <img th:src="@{'/img/' + ${vg.img}}" alt="" width="100" />
               </td>
               <td class="align-middle">[[${vg.name}]]</td>
-              <td class="align-middle">
+              <td class="align-middle" style="width: 0px">
                 <a
-                  class="btn btn-primary"
+                  class="btn btn-primary btn-sm"
                   th:href="@{/videogames/{id} (id = ${vg.id})}"
                   >Dettaglio</a
                 >
               </td>
-              <td class="align-middle">
+              <td class="align-middle" style="width: 0px">
                 <a
-                  class="btn btn-warning"
+                  class="btn btn-secondary btn-sm"
                   th:href="@{/videogames/edit/{id} (id = ${vg.id})}"
                   >Modifica</a
                 >
               </td>
 
               <!-- Bottone modale  -->
-              <td class="align-middle">
+              <td class="align-middle" style="width: 0px">
                 <button
                   type="button"
-                  class="btn btn-danger"
+                  class="btn btn-danger btn-sm"
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
                   th:attr="data-bs-target='#deleteModal-' + ${vg.id}"
