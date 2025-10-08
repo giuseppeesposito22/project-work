@@ -8,9 +8,8 @@
   </head>
   <body>
     <div th:insert="~{fragments/fragments :: navbar}"></div>
-    <div class="container">
+    <div class="container my-5">
       <div class="row">
-      
         <form
           method="post"
           th:action="${edit} ? @{/videogames/edit/{id} (id = ${videogame.id})} : @{/videogames/create}"
@@ -123,17 +122,11 @@
           <!-- Immagine  -->
           <div class="mb-3">
             <label for="img" class="form-label">Immagine</label>
-            <input
-            
-              type="file"
-              name="file"
-              class="form-control"
-              id="img"
-            />
-           
+            <input type="file" name="file" class="form-control" id="img" />
+          </div>
 
           <!-- Checkbox  -->
-          <div class="mb-3 form-check" th:each="platform : ${platforms}">
+          <div class="my-3 form-check" th:each="platform : ${platforms}">
             <input
               type="checkbox"
               class="form-check-input"
