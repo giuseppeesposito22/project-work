@@ -27,6 +27,7 @@ public class DatabaseUserDetailService implements UserDetailsService{
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("Nessun utente trovato con questo Username");
         }
+
         
         return new DatabaseUserDetails(user.get());
     }

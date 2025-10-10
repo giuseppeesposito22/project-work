@@ -22,11 +22,10 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         
         http.authorizeHttpRequests(requests -> requests
-        .requestMatchers("/pizzas/create", "/pizzas/edit/**").hasAuthority("ADMIN")
-        .requestMatchers(HttpMethod.POST, "/pizzas/**").hasAnyAuthority("ADMIN")
-        .requestMatchers("/pizzas", "/pizzas/**").hasAnyAuthority("ADMIN", "USER")
-        .requestMatchers("/ingredients", "/ingredients/**").hasAuthority("ADMIN")
-        .requestMatchers("/deals", "/deals/**").hasAuthority("ADMIN")
+        .requestMatchers("/videogames/create", "/videogames/edit/**").hasAuthority("ADMIN")
+        .requestMatchers(HttpMethod.POST, "/videogames/**").hasAnyAuthority("ADMIN")
+        .requestMatchers("/videogames", "/videogames/**").hasAnyAuthority("ADMIN", "USER")
+        .requestMatchers("/platforms", "/platforms/**").hasAnyAuthority("ADMIN", "USER")
         .requestMatchers("/").permitAll()
         .requestMatchers("/**").permitAll())
         .formLogin(Customizer.withDefaults())
