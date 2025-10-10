@@ -12,6 +12,7 @@
     <div class="container my-3">
       <div class="row d-flex justify-content-end">
         <a
+          sec:authorize="hasAuthority('ADMIN')"
           th:href="@{'/videogames/create'}"
           class="btn btn-outline-primary w-25"
           >+ Aggiungi videogame</a
@@ -21,8 +22,8 @@
             <tr class="table-light">
               <th scope="col">Copertina</th>
               <th scope="col">Titolo</th>
-              <th></th>
-              <th></th>
+              <th sec:authorize="hasAuthority('ADMIN')"></th>
+              <th sec:authorize="hasAuthority('ADMIN')"></th>
               <th>Azioni</th>
             </tr>
           </thead>
@@ -39,7 +40,11 @@
                   >Dettaglio</a
                 >
               </td>
-              <td class="align-middle" style="width: 0px">
+              <td
+                class="align-middle"
+                style="width: 0px"
+                sec:authorize="hasAuthority('ADMIN')"
+              >
                 <a
                   class="btn btn-secondary btn-sm"
                   th:href="@{/videogames/edit/{id} (id = ${vg.id})}"
@@ -48,7 +53,11 @@
               </td>
 
               <!-- Bottone modale  -->
-              <td class="align-middle" style="width: 0px">
+              <td
+                class="align-middle"
+                style="width: 0px"
+                sec:authorize="hasAuthority('ADMIN')"
+              >
                 <button
                   type="button"
                   class="btn btn-danger btn-sm"
