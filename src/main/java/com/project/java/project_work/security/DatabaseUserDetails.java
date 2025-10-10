@@ -12,10 +12,10 @@ import com.project.java.project_work.model.User;
 
 public class DatabaseUserDetails implements UserDetails{
 
-    private Integer id;
-    private String username;
-    private String password;
-    private Set<GrantedAuthority> authorities;
+    private final Integer id;
+    private final String username;
+    private final String password;
+    private final Set<GrantedAuthority> authorities;
 
 
 
@@ -63,28 +63,19 @@ public class DatabaseUserDetails implements UserDetails{
     public Integer getId() {
         return id;
     }
-    public void setId(Integer id) {
-        this.id = id;
-    }
+ 
     public String getUsername() {
         return username;
     }
-    public void setUsername(String username) {
-        this.username = username;
-    }
+   
     public String getPassword() {
         return password;
     }
-    public void setPassword(String password) {
-        this.password = password;
-    }
+   
     public Set<GrantedAuthority> getAuthorities() {
         return authorities;
     }
-    public void setAuthorities(Set<GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
+   
 
 
     
