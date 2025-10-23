@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.project.java.project_work.model.Platform;
 import com.project.java.project_work.repository.PlatformRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class PlatformService {
 
@@ -30,7 +32,9 @@ public class PlatformService {
         return platformRepository.save(videogame);
     }
 
+    @Transactional
     public void deletePlatform(Integer id){
+        platformRepository.deleteLinksByPlatformId(id);
         platformRepository.deleteById(id);
     }
 
