@@ -39,7 +39,7 @@ public class PlatformService {
      Optional<Platform> platfOptional = platformRepository.findById(id);
      Platform platform = platfOptional.get();
 
-     List<Videogame> videogames = platform. getVideogames();
+     List<Videogame> videogames = platform.getVideogames();
 
      for(Videogame videogame : videogames){
         videogame.getPlatforms().remove(platform);
