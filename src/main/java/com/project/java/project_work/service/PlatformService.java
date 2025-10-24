@@ -1,14 +1,15 @@
 package com.project.java.project_work.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.java.project_work.model.Platform;
+import com.project.java.project_work.model.Videogame;
 import com.project.java.project_work.repository.PlatformRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class PlatformService {
@@ -32,11 +33,23 @@ public class PlatformService {
         return platformRepository.save(videogame);
     }
 
-    @Transactional
+ 
     public void deletePlatform(Integer id){
-        platformRepository.deleteLinksByPlatformId(id);
+      
+     Optional<Platform> platfOptional = platformRepository.findById(id);
+     Platform platform = platfOptional.get();
+
+     List<Videogame> videogames = platform. getVideogames();
+
+     for(Videogame videogame : videogames){
+        videogame.getPlatforms().remove(platform);
+     }
+
+        platform.getVideogames().clear();
+
         platformRepository.deleteById(id);
     }
+
 
     public boolean existById(Integer id){
         return platformRepository.existsById(id);
